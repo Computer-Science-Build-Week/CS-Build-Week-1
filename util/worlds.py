@@ -249,8 +249,8 @@ class World:
                 direction *= -1
 
             # Create a room in the given direction
-            room = Room(room_count, rooms[room_count-1],
-                        "A world at stake. The quest for the ultimate prize. Are you ready?", x, y)
+            room = Room(id=room_count, title=rooms[room_count-1],
+                        description="A world at stake. The quest for the ultimate prize. Are you ready?", x=x, y=y)
             # Note that in Django, you'll need to save the room after you create it
 
             room.save()
