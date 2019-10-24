@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+from dotenv import load_dotenv
 import django_heroku
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 import os
@@ -31,6 +31,11 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
 
+DOTENV_FILE = os.path.join(BASE_DIR, ".env")
+ENV = False
+
+if os.path.isfile(DOTENV_FILE):
+    ENV = True
 
 # Application definition
 
@@ -154,4 +159,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 django_heroku.settings(locals())
-del DATABASES['default']['OPTIONS']['sslmode']
+if not ENV:
+    del DATABASES['default']['OPTIONS']['sslmode']
