@@ -29,14 +29,8 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
-
-DOTENV_FILE = os.path.join(BASE_DIR, ".env")
-ENV = False
-
-if os.path.isfile(DOTENV_FILE):
-    ENV = True
-
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [
+                       s.strip() for s in v.split(',')])
 # Application definition
 
 INSTALLED_APPS = [
@@ -159,5 +153,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 django_heroku.settings(locals())
-if not ENV:
-    del DATABASES['default']['OPTIONS']['sslmode']
+del DATABASES['default']['OPTIONS']['sslmode']
